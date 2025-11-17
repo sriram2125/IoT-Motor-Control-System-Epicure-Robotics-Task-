@@ -40,7 +40,7 @@ Ensure your Python environment is ready.
    cd Epicure_Robotics_Task
 
 3.  Install the required MQTT library:
-4.  
+  
     ```bash
     
     pip3 install paho-mqtt
