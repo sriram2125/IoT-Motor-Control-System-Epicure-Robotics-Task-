@@ -19,7 +19,7 @@ graph LR
     B -- MQTT --> C[ESP32 Bridge]
     C -- UART --> D[STM32 Controller]
     D --> E[Nema17 Stepper & LED]
-
+```
 -----
 
 ## 🛠️ Implementation & Simulation Strategy
