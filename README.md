@@ -47,11 +47,11 @@ Due to hardware constraints, this project utilizes a **Hybrid Simulation Strateg
 *Below: Python running on macOS Terminal (Left) sending `motor:200:1` to the Virtual ESP32 (Right) over the public MQTT broker. The message is successfully received and forwarded.*
 
 
-<img width="3124" height="2356" alt="STM -  Hardware" src="https://github.com/user-attachments/assets/78ebff61-8159-4512-9d6d-19a035032d91" />
 
 
+https://github.com/user-attachments/assets/3056c8a9-4e64-437c-9807-ef44085254c0
 
-https://github.com/user-attachments/assets/a65ecafc-b6d5-40b2-ae72-b39141d24f51
+
 
 
 
@@ -61,12 +61,11 @@ https://github.com/user-attachments/assets/a65ecafc-b6d5-40b2-ae72-b39141d24f51
 *Below: The STM32 Nucleo receiving the parsed UART command and driving the Nema 17 Stepper Motor via the A4988 Driver.*
 
 
-<img width="3360" height="2100" alt="Python -  ESP32" src="https://github.com/user-attachments/assets/95181f5c-da7d-40ef-8784-6b05e5ff37ce" />
 
 
 
-https://github.com/user-attachments/assets/fa907a9f-293e-4305-a475-d4630c4f3a94
 
+https://github.com/user-attachments/assets/dfa3d63f-2113-41b2-9bb1-4e9f937a3803
 
 
 
