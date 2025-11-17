@@ -1,3 +1,6 @@
+
+
+````markdown
 # IoT Motor Control System (Epicure Robotics Task)
 
 This repository contains the complete software solution for the **Robotic Software Engineer Task** at Epicure Robotics. 
@@ -5,10 +8,10 @@ This repository contains the complete software solution for the **Robotic Softwa
 The system implements a full communication pipeline where a **Python** script on a computer controls a **Stepper Motor** and **LED** connected to an **STM32** microcontroller, bridged wirelessly via an **ESP32** over **MQTT**.
 
 ## 📌 Project Overview
-[cite_start]**Objective:** Develop a Python-based communication system interfacing between a PC, an ESP microcontroller (via MQTT), and an STM microcontroller (via UART) to control hardware[cite: 4, 5].
+**Objective:** Develop a Python-based communication system interfacing between a PC, an ESP microcontroller (via MQTT), and an STM microcontroller (via UART) to control hardware.
 
 ### System Architecture
-[cite_start]The data flow follows the architecture defined in the task requirements [cite: 8-12]:
+The data flow follows the architecture defined in the task requirements:
 1.  **PC (Python):** Captures user commands and publishes to MQTT topic `epicure/commands`.
 2.  **ESP32 (Bridge):** Subscribes to MQTT, receives the message, and forwards it via UART (Serial2).
 3.  **STM32 (Controller):** Listens on UART, parses the command string, and executes motor/LED control logic.
@@ -19,10 +22,11 @@ graph LR
     B -- MQTT --> C[ESP32 Bridge]
     C -- UART --> D[STM32 Controller]
     D --> E[Nema17 Stepper & LED]
+````
 
 -----
 
-##🛠️ Implementation & Simulation Strategy
+## 🛠️ Implementation & Simulation Strategy
 
 Due to hardware constraints, this project utilizes a **Hybrid Simulation Strategy** using [Wokwi](https://wokwi.com). The system was validated in two integrated stages to ensure full functionality without physical wiring.
 
@@ -95,7 +99,7 @@ python3 main.py
   * **Source:** `2_ESP32_Firmware/esp32_firmware.ino`
   * **Configuration:** \* Set `ssid` to `"Wokwi-GUEST"` (for simulation) or your credentials.
       * Set `mqtt_server` to `"broker.hivemq.com"` or `"test.mosquitto.org"`.
-  * [cite\_start]**Logic:** Listens on `epicure/commands` and `Serial2.print()` to UART [cite: 25-28].
+  * **Logic:** Listens on `epicure/commands` and `Serial2.print()` to UART.
 
 ### 3\. STM32 Firmware (The Driver)
 
@@ -106,7 +110,7 @@ python3 main.py
       * **Stepper Step:** D3
       * **Stepper Dir:** D2
       * **LED:** D13
-  * [cite\_start]**Logic:** Reads serial buffer until newline `\n`, then executes [cite: 29-30].
+  * **Logic:** Reads serial buffer until newline `\n`, then executes.
 
 -----
 
@@ -121,3 +125,10 @@ The system uses a strict string-based protocol for commands.
 
 -----
 
+## 👤 Author
+
+**[Your Name]**
+*Submitted for the Robotic Software Engineer Intern Role at Epicure Robotics.*
+
+```
+```
