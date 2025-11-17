@@ -17,7 +17,6 @@ The data flow follows the architecture defined in the task requirements:
 3.  **STM32 (Controller):** Listens on UART, parses the command string, and executes motor/LED control logic.
 
 ```mermaid
-
 graph LR
     A[User/Python] -- MQTT --> B((Cloud Broker))
     B -- MQTT --> C[ESP32 Bridge]
