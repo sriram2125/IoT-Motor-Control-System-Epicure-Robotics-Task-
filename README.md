@@ -8,7 +8,7 @@ The system implements a full communication pipeline where a **Python** script on
 [cite_start]**Objective:** Develop a Python-based communication system interfacing between a PC, an ESP microcontroller (via MQTT), and an STM microcontroller (via UART) to control hardware[cite: 4].
 
 ### System Architecture
-[cite_start]The data flow follows the architecture defined in the task requirements [cite: 8-12]:
+The data flow follows the architecture defined in the task requirements [cite: 8-12]:
 1.  **PC (Python):** Captures user commands and publishes to MQTT topic `epicure/commands`.
 2.  **ESP32 (Bridge):** Subscribes to MQTT, receives the message, and forwards it via UART (Serial2).
 3.  **STM32 (Controller):** Listens on UART, parses the command string, and executes motor/LED control logic.
@@ -22,7 +22,7 @@ graph LR
 ```
 -----
 
-## 🛠️ Implementation & Simulation Strategy
+## Implementation & Simulation
 
 Due to hardware constraints, this project utilizes a **Hybrid Simulation Strategy** using [Wokwi](https://wokwi.com). The system was validated in two integrated stages to ensure full functionality without physical wiring.
 
