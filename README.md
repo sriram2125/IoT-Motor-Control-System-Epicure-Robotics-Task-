@@ -77,14 +77,14 @@ https://github.com/user-attachments/assets/dfa3d63f-2113-41b2-9bb1-4e9f937a3803
 ```text
 Epicure_Robotics_Task/
 ├── 1_Python_Control/
-│   ├── main.py              # The control station script
-│   └── requirements.txt     # Dependencies (paho-mqtt)
+│   ├── main.py             
+│   └── requirements.txt     
 ├── 2_ESP32_Firmware/
-│   └── esp32_firmware.ino   # MQTT Subscriber & UART Forwarder
+│   └── esp32_firmware.ino  
 ├── 3_STM32_Firmware/
-│   └── stm32_firmware.ino   # UART Listener & Motor Controller
-├── assets/                  # Screenshots and diagrams
-└── README.md                # Documentation
+│   └── stm32_firmware.ino  
+├── assets/                  
+└── README.md               
 ```
 
 -----
