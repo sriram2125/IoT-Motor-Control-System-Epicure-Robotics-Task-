@@ -1,4 +1,3 @@
-````markdown
 # IoT Motor Control System (Epicure Robotics Task)
 
 This repository contains the complete software solution for the **Robotic Software Engineer Task** at Epicure Robotics. 
@@ -20,7 +19,6 @@ graph LR
     B -- MQTT --> C[ESP32 Bridge]
     C -- UART --> D[STM32 Controller]
     D --> E[Nema17 Stepper & LED]
-````
 
 -----
 
