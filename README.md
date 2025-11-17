@@ -8,15 +8,21 @@ This repository contains the complete software solution for the **Robotic Softwa
 The system implements a full communication pipeline where a **Python** script on a computer controls a **Stepper Motor** and **LED** connected to an **STM32** microcontroller, bridged wirelessly via an **ESP32** over **MQTT**.
 
 ## 📌 Project Overview
-**Objective:** Develop a Python-based communication system interfacing between a PC, an ESP microcontroller (via MQTT), and an STM microcontroller (via UART) to control hardware.
+[cite_start]**Objective:** Develop a Python-based communication system interfacing between a PC, an ESP microcontroller (via MQTT), and an STM microcontroller (via UART) to control hardware[cite: 4].
 
 ### System Architecture
-The data flow follows the architecture defined in the task requirements.
+[cite_start]The data flow follows the architecture defined in the task requirements [cite: 8-12]:
 1.  **PC (Python):** Captures user commands and publishes to MQTT topic `epicure/commands`.
 2.  **ESP32 (Bridge):** Subscribes to MQTT, receives the message, and forwards it via UART (Serial2).
 3.  **STM32 (Controller):** Listens on UART, parses the command string, and executes motor/LED control logic.
 
-![System Architecture Diagram](https://mermaid.ink/img/pako:eNpVkMFOwzAQRl9l5TQtqSpQ2-QACQkOVe2BSw_G3iSWHDuynValfHfS0oJwdv7_z8-zM6yF5RjjxXhXfGlc8jS-f9D2wO-f42265eObF_u2_R6m-e12T-O0O-CjO_R0-wJ7t0_j87g74LdhtW_3u-N6wMv8x2X270e3-wJbYbmQAmthV2qDtVABO2GnsBV2C_vTGlghZJBCSoi1sBcyiJBCroVMyM_4q6_0Sg2oV6pXXWlQd6pDPagR9aRG1YcaUC8-p_0De3FfCA?type=png)
+```mermaid
+graph LR
+    A[User/Python] -- MQTT --> B((Cloud Broker))
+    B -- MQTT --> C[ESP32 Bridge]
+    C -- UART --> D[STM32 Controller]
+    D --> E[Nema17 Stepper & LED]
+````
 
 -----
 
