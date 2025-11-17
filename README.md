@@ -107,7 +107,7 @@ Due to hardware constraints, this project utilizes a **Hybrid Simulation Strateg
 
 -----
 
-## 📸 Testing & Results
+##  Testing & Results
 
 ### 1\. Full System Communication Test
 
