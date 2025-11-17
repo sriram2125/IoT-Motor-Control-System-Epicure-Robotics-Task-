@@ -141,7 +141,7 @@ https://github.com/user-attachments/assets/dfa3d63f-2113-41b2-9bb1-4e9f937a3803
 
 -----
 
-## 📂 Repository Structure
+## Repository Structure
 
 ```text
 Epicure_Robotics_Task/
@@ -158,7 +158,7 @@ Epicure_Robotics_Task/
 
 -----
 
-## 💻 Source Code
+## Source Code
 
 main.py
 
