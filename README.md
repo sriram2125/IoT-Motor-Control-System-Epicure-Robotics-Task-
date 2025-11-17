@@ -91,8 +91,7 @@ Epicure_Robotics_Task/
 
 ## 💻 Source Code
 
-\<details\>
-\<summary\>Click to view 1. Python Control Script (main.py)\</summary\>
+main.py
 
 ```python
 import paho.mqtt.client as mqtt
@@ -144,10 +143,7 @@ if __name__ == "__main__":
     main()
 ```
 
-\</details\>
-
-\<details\>
-\<summary\>Click to view 2. ESP32 Firmware (esp32\_firmware.ino)\</summary\>
+esp32_firmware.ino
 
 ```cpp
 #include <WiFi.h>
@@ -221,10 +217,9 @@ void loop() {
 }
 ```
 
-\</details\>
 
-\<details\>
-\<summary\>Click to view 3. STM32 Firmware (stm32\_firmware.ino)\</summary\>
+stm32_firmware.ino
+
 
 ```cpp
 // Pin definitions for Nucleo C031C6
@@ -297,13 +292,11 @@ void parseCommand(String cmd) {
 }
 ```
 
-\</details\>
-
 -----
 
-## 📡 Communication Protocol
+## Communication Protocol
 
-[cite\_start]The system uses a strict string-based protocol for commands [cite: 33-34].
+The system uses a strict string-based protocol for commands.
 
 | Command Type | Format | Example | Description |
 | :--- | :--- | :--- | :--- |
@@ -312,9 +305,9 @@ void parseCommand(String cmd) {
 
 -----
 
-## 👤 Author
+## Author
 
-**[Your Name]**
+**[Sriram S Rajan]**
 *Submitted for the Robotic Software Engineer Intern Role at Epicure Robotics.*
 
 ```
