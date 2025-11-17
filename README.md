@@ -30,13 +30,30 @@ Due to hardware constraints, this project utilizes a **Hybrid Simulation Strateg
 
   * **Tools:** macOS Terminal (Python) + Wokwi ESP32 Simulator (Guest Mode).
   * **Method:** The Python script communicates with the Wokwi Virtual ESP32 over the public `broker.hivemq.com` MQTT broker.
-  * **Validation:** Confirmed that strings sent from the local Python script are instantaneously received by the simulated ESP32 and forwarded to the UART buffer.
+  * **Validation:** Confirmed that strings sent from the local Python script are instantaneously received by the simulated ESP32 and forwarded to the UART buffer
+
+
+
+<img width="3360" height="2100" alt="Python -  ESP32" src="https://github.com/user-attachments/assets/59d2bbb8-75fb-4abd-a5f8-19818939ebef" />
+
+
+
+
+
+  
 
 ### 2\. Control Logic Stack (STM32 ↔ Hardware)
 
   * **Tools:** Wokwi STM32 Nucleo Simulator + A4988 Driver + Nema 17 Stepper.
   * **Method:** Since Wokwi does not support direct UART connection between separate browser tabs, the "UART Input" was simulated by injecting command strings (`motor:200:1`) directly into the STM32 Serial Monitor.
   * **Validation:** Verified that the STM32 firmware correctly parses the strings and drives the A4988 driver signals to rotate the motor and toggle the LED.
+
+
+
+<img width="3124" height="2356" alt="STM -  Hardware" src="https://github.com/user-attachments/assets/c2738bcf-4437-4b6e-868d-cf9cc3f449e5" />
+
+
+
 
 -----
 
