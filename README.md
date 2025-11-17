@@ -1,7 +1,5 @@
 # IoT Motor Control System
 
-This repository contains the complete software solution for the **Robotic Software Engineer Task** at Epicure Robotics.
-
 The system implements a full communication pipeline where a **Python** script on a computer controls a **Stepper Motor** and **LED** connected to an **STM32** microcontroller, bridged wirelessly via an **ESP32** over **MQTT**.
 
 ##  Project Overview
