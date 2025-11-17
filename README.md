@@ -1,4 +1,4 @@
-# IoT Motor Control System (Epicure Robotics Task)
+# IoT Motor Control System
 
 This repository contains the complete software solution for the **Robotic Software Engineer Task** at Epicure Robotics.
 
