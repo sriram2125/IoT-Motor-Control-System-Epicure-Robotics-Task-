@@ -22,6 +22,58 @@ graph LR
 ```
 -----
 
+
+
+
+## Launch Codes
+
+Follow these exact steps to launch the simulation and control the system.
+
+### Step 1:
+Ensure your Python environment is ready.
+
+1. Open your Terminal.
+ 
+2. Navigate to the project directory:
+   
+   ```bash
+   cd Epicure_Robotics_Task
+
+3.  Install the required MQTT library:
+4.  
+    ```bash
+    
+    pip3 install paho-mqtt
+    
+    ```
+
+### Step 2: Start the Hardware Simulation (Wokwi)
+
+Since this is a hybrid simulation, you must start the virtual hardware first.
+
+1.  **Launch ESP32 (The Bridge):**
+      * Open your Wokwi project for the **ESP32**.
+      * Click the green **Play Button**.
+      * *Wait for:* `WiFi connected` and `Attempting MQTT connection...connected`.
+2.  **Launch STM32 (The Controller):**
+      * Open your Wokwi project for the **STM32**.
+      * Click the green **Play Button**.
+      * *Wait for:* `STM32 Ready. Waiting for commands...`
+
+### Step 3: Start the Control Software (Python)
+
+1.  In your Terminal, run the control script:
+    ```bash
+    python3 main.py
+    ```
+2.  *Success Indicator:* You will see `Connected to MQTT Broker!` followed by `Command >`.
+
+
+
+
+
+
+
 ## Implementation & Simulation
 
 Due to hardware constraints, this project utilizes a **Hybrid Simulation Strategy** using [Wokwi](https://wokwi.com). The system was validated in two integrated stages to ensure full functionality without physical wiring.
