@@ -22,7 +22,7 @@ graph LR
 
 -----
 
-## 🛠️ Implementation & Simulation Strategy
+##🛠️ Implementation & Simulation Strategy
 
 Due to hardware constraints, this project utilizes a **Hybrid Simulation Strategy** using [Wokwi](https://wokwi.com). The system was validated in two integrated stages to ensure full functionality without physical wiring.
 
