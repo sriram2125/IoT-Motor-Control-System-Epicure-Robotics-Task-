@@ -1,15 +1,17 @@
+
+
 ````markdown
 # IoT Motor Control System (Epicure Robotics Task)
 
-This repository contains the complete software solution for the **Robotic Software Engineer Task** at Epicure Robotics. 
+This repository contains the complete software solution for the **Robotic Software Engineer Task** at Epicure Robotics.
 
 The system implements a full communication pipeline where a **Python** script on a computer controls a **Stepper Motor** and **LED** connected to an **STM32** microcontroller, bridged wirelessly via an **ESP32** over **MQTT**.
 
 ## 📌 Project Overview
-**Objective:** Develop a Python-based communication system interfacing between a PC, an ESP microcontroller (via MQTT), and an STM microcontroller (via UART) to control hardware.
+[cite_start]**Objective:** Develop a Python-based communication system interfacing between a PC, an ESP microcontroller (via MQTT), and an STM microcontroller (via UART) to control hardware[cite: 4].
 
 ### System Architecture
-The data flow follows the architecture defined in the task requirements:
+[cite_start]The data flow follows the architecture defined in the task requirements [cite: 8-12]:
 1.  **PC (Python):** Captures user commands and publishes to MQTT topic `epicure/commands`.
 2.  **ESP32 (Bridge):** Subscribes to MQTT, receives the message, and forwards it via UART (Serial2).
 3.  **STM32 (Controller):** Listens on UART, parses the command string, and executes motor/LED control logic.
@@ -30,13 +32,15 @@ Due to hardware constraints, this project utilizes a **Hybrid Simulation Strateg
 
 ### 1\. Communication Stack (Python ↔ ESP32)
 
-  * **Tools:** macOS Terminal (Python) + Wokwi ESP32 Simulator.
-  * **Validation:** Confirmed that strings sent from the Python script via `paho-mqtt` are instantaneously received by the ESP32 and printed to the Serial Monitor/UART buffer.
+  * **Tools:** macOS Terminal (Python) + Wokwi ESP32 Simulator (Guest Mode).
+  * **Method:** The Python script communicates with the Wokwi Virtual ESP32 over the public `broker.hivemq.com` MQTT broker.
+  * **Validation:** Confirmed that strings sent from the local Python script are instantaneously received by the simulated ESP32 and forwarded to the UART buffer.
 
 ### 2\. Control Logic Stack (STM32 ↔ Hardware)
 
   * **Tools:** Wokwi STM32 Nucleo Simulator + A4988 Driver + Nema 17 Stepper.
-  * **Validation:** Validated UART parsing logic by injecting command strings directly into the serial stream. Confirmed precise motor stepping and LED toggling.
+  * **Method:** Since Wokwi does not support direct UART connection between separate browser tabs, the "UART Input" was simulated by injecting command strings (`motor:200:1`) directly into the STM32 Serial Monitor.
+  * **Validation:** Verified that the STM32 firmware correctly parses the strings and drives the A4988 driver signals to rotate the motor and toggle the LED.
 
 -----
 
@@ -69,52 +73,221 @@ Epicure_Robotics_Task/
 
 -----
 
-## 🚀 Getting Started
+## 💻 Source Code
 
-### Prerequisites
+\<details\>
+\<summary\>Click to view 1. Python Control Script (main.py)\</summary\>
 
-  * **Python 3.x**
-  * **Arduino IDE** (for viewing firmware)
-  * **Wokwi Simulator** (Web-based)
+```python
+import paho.mqtt.client as mqtt
+import time
 
-### 1\. Python Setup (The Controller)
+# Configuration
+BROKER = "broker.hivemq.com" 
+PORT = 1883
+TOPIC = "epicure/commands"
 
-Navigate to the `1_Python_Control` directory and install dependencies:
+def on_connect(client, userdata, flags, rc):
+    if rc == 0:
+        print(f"Connected to MQTT Broker: {BROKER}")
+    else:
+        print(f"Failed to connect, return code {rc}")
 
-```bash
-cd 1_Python_Control
-pip install -r requirements.txt
+def main():
+    client = mqtt.Client()
+    client.on_connect = on_connect
+    
+    print("Connecting to network...")
+    try:
+        client.connect(BROKER, PORT, 60)
+        client.loop_start()
+    except Exception as e:
+        print(f"Connection failed: {e}")
+        return
+
+    print("\n--- Epicure Control Terminal ---")
+    print("Type commands like 'motor:100:1' or 'led:on'")
+    print("Type 'exit' to quit.\n")
+
+    try:
+        while True:
+            cmd = input("Command > ")
+            if cmd == 'exit':
+                break
+            if cmd.strip():
+                client.publish(TOPIC, cmd)
+                print(f"Sent: {cmd}")
+            
+    except KeyboardInterrupt:
+        print("\nExiting...")
+    finally:
+        client.loop_stop()
+        client.disconnect()
+
+if __name__ == "__main__":
+    main()
 ```
 
-Run the controller:
+\</details\>
 
-```bash
-python3 main.py
+\<details\>
+\<summary\>Click to view 2. ESP32 Firmware (esp32\_firmware.ino)\</summary\>
+
+```cpp
+#include <WiFi.h>
+#include <PubSubClient.h>
+
+// Wokwi Simulation WiFi
+const char* ssid = "Wokwi-GUEST"; 
+const char* password = "";        
+
+const char* mqtt_server = "broker.hivemq.com"; 
+const char* topic = "epicure/commands";
+
+WiFiClient espClient;
+PubSubClient client(espClient);
+
+#define RXD2 16
+#define TXD2 17
+
+void setup() {
+  Serial.begin(115200);
+  Serial2.begin(115200, SERIAL_8N1, RXD2, TXD2); 
+
+  setup_wifi();
+  client.setServer(mqtt_server, 1883);
+  client.setCallback(callback);
+}
+
+void setup_wifi() {
+  delay(10);
+  Serial.println("Connecting to Wokwi-GUEST...");
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("\nWiFi connected");
+}
+
+void callback(char* topic, byte* payload, unsigned int length) {
+  String message = "";
+  for (int i = 0; i < length; i++) {
+    message += (char)payload[i];
+  }
+  Serial.print("MQTT RECEIVED: ");
+  Serial.println(message);
+  
+  // Forward to STM32
+  Serial2.println(message); 
+  Serial.println(">> Forwarded to STM32 via UART");
+}
+
+void reconnect() {
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    String clientId = "EpicureClient-";
+    clientId += String(random(0xffff), HEX);
+    
+    if (client.connect(clientId.c_str())) {
+      Serial.println("connected");
+      client.subscribe(topic);
+    } else {
+      delay(5000);
+    }
+  }
+}
+
+void loop() {
+  if (!client.connected()) reconnect();
+  client.loop();
+}
 ```
 
-### 2\. ESP32 Firmware (The Bridge)
+\</details\>
 
-  * **Source:** `2_ESP32_Firmware/esp32_firmware.ino`
-  * **Configuration:** \* Set `ssid` to `"Wokwi-GUEST"` (for simulation) or your credentials.
-      * Set `mqtt_server` to `"broker.hivemq.com"` or `"test.mosquitto.org"`.
-  * **Logic:** Listens on `epicure/commands` and `Serial2.print()` to UART.
+\<details\>
+\<summary\>Click to view 3. STM32 Firmware (stm32\_firmware.ino)\</summary\>
 
-### 3\. STM32 Firmware (The Driver)
+```cpp
+// Pin definitions for Nucleo C031C6
+#define LED_PIN  D13
+#define DIR_PIN  D2
+#define STEP_PIN D3
 
-  * **Source:** `3_STM32_Firmware/stm32_firmware.ino`
-  * **Hardware Target:** STM32 Nucleo C031C6 (or F407VET6 as per docs).
-  * **Pinout (Nucleo Simulation):**
-      * **UART:** Default Serial (USB/Virtual).
-      * **Stepper Step:** D3
-      * **Stepper Dir:** D2
-      * **LED:** D13
-  * **Logic:** Reads serial buffer until newline `\n`, then executes.
+String inputString = "";
+bool stringComplete = false;
+
+void setup() {
+  pinMode(LED_PIN, OUTPUT);
+  pinMode(STEP_PIN, OUTPUT);
+  pinMode(DIR_PIN, OUTPUT);
+  
+  Serial.begin(115200);
+  Serial.println("STM32 Ready. Waiting for commands...");
+}
+
+void loop() {
+  while (Serial.available()) {
+    char inChar = (char)Serial.read();
+    if (inChar == '\n') {
+      stringComplete = true;
+    } else {
+      inputString += inChar;
+    }
+  }
+
+  if (stringComplete) {
+    parseCommand(inputString);
+    inputString = "";
+    stringComplete = false;
+  }
+}
+
+void parseCommand(String cmd) {
+  cmd.trim();
+  
+  if (cmd.startsWith("led:")) {
+    if (cmd.indexOf("on") > 0) {
+      digitalWrite(LED_PIN, HIGH);
+      Serial.println("LED ON");
+    } else {
+      digitalWrite(LED_PIN, LOW);
+      Serial.println("LED OFF");
+    }
+  }
+  else if (cmd.startsWith("motor:")) {
+    int firstColon = cmd.indexOf(':');
+    int secondColon = cmd.lastIndexOf(':');
+    
+    if (firstColon > 0) {
+       String stepsStr = cmd.substring(firstColon + 1, secondColon);
+       int steps = stepsStr.toInt();
+       
+       Serial.print("Moving Motor: ");
+       Serial.println(steps);
+       
+       digitalWrite(DIR_PIN, HIGH);
+       
+       for(int i=0; i<steps; i++) {
+         digitalWrite(STEP_PIN, HIGH);
+         delay(10);
+         digitalWrite(STEP_PIN, LOW);
+         delay(10);
+       }
+    }
+  }
+}
+```
+
+\</details\>
 
 -----
 
 ## 📡 Communication Protocol
 
-The system uses a strict string-based protocol for commands.
+[cite\_start]The system uses a strict string-based protocol for commands [cite: 33-34].
 
 | Command Type | Format | Example | Description |
 | :--- | :--- | :--- | :--- |
