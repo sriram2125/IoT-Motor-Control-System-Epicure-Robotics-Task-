@@ -46,14 +46,30 @@ Due to hardware constraints, this project utilizes a **Hybrid Simulation Strateg
 
 *Below: Python running on macOS Terminal (Left) sending `motor:200:1` to the Virtual ESP32 (Right) over the public MQTT broker. The message is successfully received and forwarded.*
 
-<p align="center" width="100%">
-<video src="[https://github.com/user-attachments/assets/563d36e5-1c92-49e6-aa88-c873a20ddf1d](https://github.com/sriram2125/IoT-Motor-Control-System-Epicure-Robotics-Task-/blob/main/Assets/Python%20-%3E%3E%20ESP32.mp4)" width="80%" controls></video>
-</p>
+
+<img width="3124" height="2356" alt="STM -  Hardware" src="https://github.com/user-attachments/assets/78ebff61-8159-4512-9d6d-19a035032d91" />
+
+
+
+https://github.com/user-attachments/assets/a65ecafc-b6d5-40b2-ae72-b39141d24f51
+
+
 
 
 ### 2\. STM32 Motor Control Verification
 
 *Below: The STM32 Nucleo receiving the parsed UART command and driving the Nema 17 Stepper Motor via the A4988 Driver.*
+
+
+<img width="3360" height="2100" alt="Python -  ESP32" src="https://github.com/user-attachments/assets/95181f5c-da7d-40ef-8784-6b05e5ff37ce" />
+
+
+
+https://github.com/user-attachments/assets/fa907a9f-293e-4305-a475-d4630c4f3a94
+
+
+
+
 
 -----
 
